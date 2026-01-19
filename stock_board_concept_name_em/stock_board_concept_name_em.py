@@ -21,7 +21,7 @@ import os
 import akshare
 import pandas as pd
 from akshare.stock_a.stock_board_concept_name_em import stock_board_concept_name_em
-from akshare_sync import get_cfg, get_logger
+from util.tools import get_cfg, get_logger
 from tenacity import retry, stop_after_attempt, wait_incrementing
 
 from sync_logs.sync_logs import (

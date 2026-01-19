@@ -14,7 +14,7 @@ import datetime
 import os
 
 import pandas as pd
-from akshare_sync import get_cfg, get_logger
+from util.tools import get_cfg, get_logger
 from tenacity import retry, stop_after_attempt, wait_incrementing
 
 from sync_logs.sync_logs import update_sync_log_state_to_failed, update_sync_log_date
