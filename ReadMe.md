@@ -95,7 +95,7 @@ ID |日期      |股票代码  |开盘   |收盘   |最高   |最低   |成交�
 
 线程池 :  ThreadPoolExecutor, 每个进程共享内存空间, 多个并发之间共享全局变量，适合 IO 密集型（网络请求、文件读写、数据库操作）任务                 
 
-- 表间并发控制（进程池） ： 基于 multiprocessing 接口, 创建线程池, 并发同步多张表 (参考代码: [sync_start.py](sync_start.py))
+- 表间并发控制（进程池） ： 基于 multiprocessing 接口, 创进程程池, 每张表运行于一个独立的进程，并发同步多张表 (参考代码: [sync_start.py](sync_start.py))
 
 - 表内并发控制（线程池） ：部分表需根据股票代码进行同步, 基于 ThreadPoolExecutor 类创建表内并发线程池, 同时同步多只股票数据 (
 参考代码: [stock_zh_a_hist_daily_qfq/stock_zh_a_hist_daily_qfq.py](stock_zh_a_hist_daily_qfq/stock_zh_a_hist_daily_qfq.py))
