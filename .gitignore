@@ -1,0 +1,10 @@
+.idea
+.idea/*
+logs
+application.ini
+.DS_Store
+test
+.venv
+
+
+

@@ -1,0 +1,28 @@
+[oracle]
+host=localhost
+port=11521
+user=akshare
+password=Akshare009
+service_name=STOCK
+client_win=C:\Apps\OracleClient\instantclient_19_28
+client_macos=/opt/instantclient_23_3
+
+[proxy]
+http=
+https=
+
+
+[sync-logging]
+level=INFO
+filename=data-syn
+backupDays=14
+
+[feature-logging]
+level = INFO
+filename = feature-calculate.log
+backupDays = 14
+
+[forecasting-logging]
+level = INFO
+filename = stock-forecasting.log
+backupDays = 14
