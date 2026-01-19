@@ -90,8 +90,8 @@ def sync(processes_size):
         fund_portfolio_hold_em.sync,  # 东方财富网-天天基金网-基金数据-所有基金的基本信息数据
         stock_margin_sse.sync,  # 上海证券交易所-融资融券数据-融资融券汇总数据
         stock_margin_detail_sse.sync,  # 上海证券交易所-融资融券数据-融资融券明细数据
-        stock_margin_szse.sync,  # 上海证券交易所-融资融券数据-融资融券汇总数据
-        stock_margin_detail_szse.sync,  # 上海证券交易所-融资融券数据-融资融券明细数据
+        stock_margin_szse.sync,  # 深圳证券交易所-融资融券数据-融资融券汇总数据
+        stock_margin_detail_szse.sync,  # 深证证券交易所-融资融券数据-融资融券交易明细数据
     ]
 
     """ 创建执行的线程池对象, 并指定线程池大小, 并提交数据同步task任务  """

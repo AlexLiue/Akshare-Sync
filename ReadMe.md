@@ -98,12 +98,12 @@ ID |日期      |股票代码  |开盘   |收盘   |最高   |最低   |成交�
 
 ### 表内并发控制
 
-部分表需根据制定股票代码进行同步, 基于 ThreadPoolExecutor 类创建表内并发线程池, 同时同步多只股票数据 (
+部分表需根据股票代码进行同步, 基于 ThreadPoolExecutor 类创建表内并发线程池, 同时同步多只股票数据 (
 参考代码: [stock_zh_a_hist_daily_qfq/stock_zh_a_hist_daily_qfq.py](stock_zh_a_hist_daily_qfq/stock_zh_a_hist_daily_qfq.py))
 
 ## 失败重试机制
 
-由于同步过程会创建大量的 Requets 请求访问，存在被封 IP 的情况，或者代理访问不稳定情况，使用 tenacity 接口的 retry
+由于同步过程会创建大量的 Request 请求访问，存在被封 IP 的情况，或者代理访问不稳定情况，使用 tenacity 接口的 retry
 注解对函数进行封装  
 如参考代码: [stock_zh_a_hist_daily_qfq/stock_zh_a_hist_daily_qfq.py](stock_zh_a_hist_daily_qfq/stock_zh_a_hist_daily_qfq.py)
 
@@ -137,9 +137,11 @@ GRANT ALL PRIVILEGES TO akshare;
 
 #### 修改配置文件信息(本地数据库地址信息)
 
-编辑 application.ini 修改本地数据库的地址用户密码
-
 ```
+cp application.ini.example application.ini
+
+编辑 application.ini 修改本地 Oracle 数据库的地址用户密码
+
 [oracle]
 host=localhost
 port=11521
@@ -167,7 +169,7 @@ client_macos=/opt/instantclient_23_3
 
 ### IP 代理池搭建
 
-由于高频访问会会服务器封IP地址本地搭建 IP 代理池信息，获取免费的 IP 代理池,
+由于高频访问服务器会封IP地址，搭建本地 IP 代理池信息，获取免费的 IP 代理池,
 发送请求 [https://github.com/jhao104/proxy_pool](https://github.com/jhao104/proxy_pool)
 
 ```
