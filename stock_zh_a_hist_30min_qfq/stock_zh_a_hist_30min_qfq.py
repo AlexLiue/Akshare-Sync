@@ -155,9 +155,7 @@ def exec_sync(args):
                 )
                 exec_sql(clean_sql)
 
-                last_sync_info = query_last_sync_info(trade_code, engine, logger)
-                last_sync_date = last_sync_info[0]
-                start_date = last_sync_date
+                start_date = (datetime.datetime.now() - datetime.timedelta(days=50)).strftime("%Y%m%d")
                 df = stock_zh_a_hist_min_em(
                     symbol=trade_code,
                     start_date=start_date,

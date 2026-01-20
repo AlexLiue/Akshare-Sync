@@ -148,9 +148,7 @@ def exec_sync(args):
                 )
                 exec_sql(clean_sql)
 
-                last_sync_info = query_last_sync_info(trade_code, engine, logger)
-                last_sync_date = last_sync_info[0]
-                start_date = last_sync_date
+                start_date = "19700101"
                 df = stock_zh_a_hist(
                     symbol=trade_code,
                     period="daily",
