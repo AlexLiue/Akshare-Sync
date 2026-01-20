@@ -42,50 +42,51 @@ ID |日期      |股票代码  |开盘   |收盘   |最高   |最低   |成交�
 参考 sync_start.py 主程序调用代码
 
 ```text
- """ 同步的函数列表 """
-    functions = [
-        stock_table_api_summary.sync,      # 表 API 接口信息
-        stock_hk_short_sale.sync,          # 港股 HK 淡仓申报
-        stock_hk_ccass_records.sync,       # 香港证监会公示数据-中央结算系統持股记录
-        stock_sse_summary.sync,            # 上海证券交易所-股票数据总貌
-        stock_szse_summary.sync,           # 深圳证券交易所-市场总貌-证券类别统计
-        stock_szse_area_summary.sync,      # 深圳证券交易所-市场总貌-地区交易排序
-        stock_szse_sector_summary.sync,    # 深圳证券交易所-统计资料-股票行业成交数据
-        stock_sse_deal_daily.sync,         # 上海证券交易所-数据-股票数据-成交概况-股票成交概况-每日股票情况
-        stock_board_concept_cons_em.sync,  # 东方财富-沪深板块-概念板块-板块成份
-        stock_board_concept_hist_em.sync,  # 东方财富-沪深板块-概念板块-历史行情数据
-        stock_board_industry_cons_em.sync, # 东方财富-沪深板块-行业板块-板块成份
-        stock_board_industry_hist_em.sync, # 东方财富-沪深板块-行业板块-历史行情数据
-        stock_value_em.sync,               # 东方财富网-数据中心-估值分析-每日互动-每日互动-估值分析
-        stock_yjbb_em.sync,                # 东方财富-数据中心-年报季报-业绩报表
-        stock_yjkb_em.sync,                # 东方财富-数据中心-年报季报-业绩快报
-        stock_yjyg_em.sync,                # 东方财富-数据中心-年报季报-业绩预告
-        stock_yysj_em.sync,                # 东方财富-数据中心-年报季报-预约披露时间
-        stock_zcfz_em.sync,                # 东方财富-数据中心-年报季报-业绩快报-资产负债表
-        stock_lrb_em.sync,                 # 东方财富-数据中心-年报季报-业绩快报-利润表
-        stock_xjll_em.sync,                # 东方财富-数据中心-年报季报-业绩快报-现金流量表
-        stock_zh_a_hist_30min_qfq.sync,    # 东方财富网-行情首页-港股-每日分时行情-30分钟-前复权
-        stock_zh_a_hist_30min_hfq.sync,    # 东方财富网-行情首页-港股-每日分时行情-30分钟-后复权
-        stock_zh_a_hist_daily_qfq.sync,    # 东方财富-沪深京 A 股日频率数据 - 前复权
-        stock_zh_a_hist_daily_hfq.sync,    # 东方财富-沪深京 A 股日频率数据 - 后复权
-        stock_zh_a_hist_weekly_qfq.sync,   # 东方财富-沪深京 A 股周频率数据 - 前复权
-        stock_zh_a_hist_weekly_hfq.sync,   # 东方财富-沪深京 A 股周频率数据 - 后复权
-        stock_zh_a_hist_monthly_qfq.sync,  # 东方财富-沪深京 A 股月频率数据 - 前复权
-        stock_zh_a_hist_monthly_hfq.sync,  # 东方财富-沪深京 A 股月频率数据 - 后复权
-        fund_portfolio_hold_em.sync,       # 东方财富网-天天基金网-基金数据-所有基金的基本信息数据
-        stock_margin_sse.sync,             # 上海证券交易所-融资融券数据-融资融券汇总数据
-        stock_margin_detail_sse.sync,      # 上海证券交易所-融资融券数据-融资融券明细数据
-        stock_margin_szse.sync,            # 圳证券交易所-融资融券数据-融资融券汇总数据
-        stock_margin_detail_szse.sync,     # 深证证券交易所-融资融券数据-融资融券交易明细数据
-    ]
-
-    """ 创建执行的线程池对象, 并指定线程池大小, 并提交数据同步task任务  """
+    stock_trade_date.sync(False, False)  # 交易日历
+    stock_basic_info.sync(False, False)  # 股票基本信息: 股票代码、股票名称、交易所、板块
+    stock_hk_ggt_components_em.sync(False, False)  # 东方财富网-行情中心-港股市场-港股通成份股
+    stock_board_concept_name_em.sync(False, False)  # 东方财富网-行情中心-沪深京板块-概念板块
+    stock_board_industry_name_em.sync(False, False)  # 东方财富网-行情中心-沪深京板块-行业板块
+    fund_name_em.sync()  # 东方财富网-天天基金网-基金数据-所有基金的基本信息数据
+    
+ """ 创建执行的线程池对象, 并指定线程池大小, 并提交数据同步task任务  """
     pool = multiprocessing.Pool(processes=processes_size)
-
-    results = [pool.apply_async(function, args=(False,)) for function in functions]
-
-    """ 关闭进程池，不再接受新的任务"""
-    pool.close()
+    functions = {
+        stock_table_api_summary.sync : (False, False),  # 表 API 接口信息
+        stock_hk_short_sale.sync : (False, False),  # 港股 HK 淡仓申报
+        stock_hk_ccass_records.sync : (False, False),  # 香港证监会公示数据-中央结算系統持股记录
+        stock_sse_summary.sync : (False, False),  # 上海证券交易所-股票数据总貌
+        stock_szse_summary.sync : (False, False),  # 深圳证券交易所-市场总貌-证券类别统计
+        stock_szse_area_summary.sync : (False, False),  # 深圳证券交易所-市场总貌-地区交易排序
+        stock_szse_sector_summary.sync : (False, False),  # 深圳证券交易所-统计资料-股票行业成交数据
+        stock_sse_deal_daily.sync : (False, False),  # 上海证券交易所-数据-股票数据-成交概况-股票成交概况-每日股票情况
+        stock_board_concept_cons_em.sync : (False, True),  # 东方财富-沪深板块-概念板块-板块成份
+        stock_board_concept_hist_em.sync : (False, True),  # 东方财富-沪深板块-概念板块-历史行情数据
+        stock_board_industry_cons_em.sync : (False, True),  # 东方财富-沪深板块-行业板块-板块成份
+        stock_board_industry_hist_em.sync : (False, True),  # 东方财富-沪深板块-行业板块-历史行情数据
+        stock_value_em.sync : (False, True),  # 东方财富网-数据中心-估值分析-每日互动-每日互动-估值分析
+        stock_yjbb_em.sync : (False, True),  # 东方财富-数据中心-年报季报-业绩报表
+        stock_yjkb_em.sync : (False, True),  # 东方财富-数据中心-年报季报-业绩快报
+        stock_yjyg_em.sync : (False, True),  # 东方财富-数据中心-年报季报-业绩预告
+        stock_yysj_em.sync : (False, True),  # 东方财富-数据中心-年报季报-预约披露时间
+        stock_zcfz_em.sync : (False, True),  # 东方财富-数据中心-年报季报-业绩快报-资产负债表
+        stock_lrb_em.sync : (False, True),  # 东方财富-数据中心-年报季报-业绩快报-利润表
+        stock_xjll_em.sync : (False, True),  # 东方财富-数据中心-年报季报-业绩快报-现金流量表
+        stock_zh_a_hist_30min_qfq.sync : (False, True, 5),  # 东方财富网-行情首页-港股-每日分时行情-30分钟-前复权
+        stock_zh_a_hist_30min_hfq.sync : (False, True, 5),  # 东方财富网-行情首页-港股-每日分时行情-30分钟-后复权
+        stock_zh_a_hist_daily_qfq.sync : (False, True, 5),  # 东方财富-沪深京 A 股日频率数据 - 前复权
+        stock_zh_a_hist_daily_hfq.sync : (False, True, 5),  # 东方财富-沪深京 A 股日频率数据 - 后复权
+        stock_zh_a_hist_weekly_qfq.sync : (False, True, 5),  # 东方财富-沪深京 A 股周频率数据 - 前复权
+        stock_zh_a_hist_weekly_hfq.sync : (False, True, 5),  # 东方财富-沪深京 A 股周频率数据 - 后复权
+        stock_zh_a_hist_monthly_qfq.sync : (False, True, 5),  # 东方财富-沪深京 A 股月频率数据 - 前复权
+        stock_zh_a_hist_monthly_hfq.sync : (False, True, 5),  # 东方财富-沪深京 A 股月频率数据 - 后复权
+        fund_portfolio_hold_em.sync : (False, True, 5),  # 东方财富网-天天基金网-基金数据-所有基金的基本信息数据
+        stock_margin_sse.sync : (False, False),  # 上海证券交易所-融资融券数据-融资融券汇总数据
+        stock_margin_detail_sse.sync : (False, False),  # 上海证券交易所-融资融券数据-融资融券明细数据
+        stock_margin_szse.sync : (False, False, 5),  # 深圳证券交易所-融资融券数据-融资融券汇总数据
+        stock_margin_detail_szse.sync : (False, False),  # 深证证券交易所-融资融券数据-融资融券交易明细数据
+    }
+    results = [pool.apply_async(function, args=param) for function, param in functions.items()]
 ```
 
 ## 并发控制
