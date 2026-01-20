@@ -9,8 +9,8 @@ pd.set_option("display.width", None)
 pd.set_option("display.max_colwidth", None)
 pd.set_option("display.float_format", lambda x: "%.2f" % x)
 
-class Proxy:
 
+class Proxy:
     """
     代理存在问题未解决
 
@@ -28,7 +28,6 @@ class Proxy:
         os.environ["http_proxy"] = cfg["proxy"]["http"]
         os.environ["https_proxy"] = cfg["proxy"]["https"]
 
-
     @staticmethod
     def disable_proxy():
         if 'http_proxy' in os.environ:
@@ -39,5 +38,3 @@ class Proxy:
 
 if __name__ == "__main__":
     Proxy()
-
-

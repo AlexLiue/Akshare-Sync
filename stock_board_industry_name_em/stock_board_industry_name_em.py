@@ -20,20 +20,20 @@ import os
 
 import akshare
 import pandas as pd
-from util.tools import get_cfg, get_logger
 from tenacity import retry, stop_after_attempt, wait_incrementing
 
 from sync_logs.sync_logs import (
     update_sync_log_date,
     update_sync_log_state_to_failed,
 )
+from util.retry import log_retry_stats
 from util.tools import (
     exec_create_table_script,
     get_engine,
     exec_sql,
     save_to_database,
 )
-from util.retry import log_retry_stats
+from util.tools import get_cfg, get_logger
 
 pd.set_option("display.max_columns", None)
 pd.set_option("display.max_rows", None)
@@ -62,7 +62,7 @@ def sync(drop_exist=False, enable_proxy=False):
     if enable_proxy:
         from util.proxy import Proxy
         Proxy.enable_proxy()
-    
+
     cfg = get_cfg()
     logger = get_logger("stock_board_industry_name_em", cfg["sync-logging"]["filename"])
 

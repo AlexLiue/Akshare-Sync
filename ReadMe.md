@@ -90,16 +90,19 @@ ID |日期      |股票代码  |开盘   |收盘   |最高   |最低   |成交�
 ```
 
 ## 并发控制
-为加快同步速度引入并发控制逻辑（进程池、线程池），请合理控制并发，避免对相关网址进行饱和式请求访问    
 
-进程池 :  multiprocessing.Pool, 每个进程有独立内存空间, 多个并发之间数据不共享，适合 CPU 密集型（计算、加密、图像处理）任务          
+为加快同步速度引入并发控制逻辑（进程池、线程池），请合理控制并发，避免对相关网址进行饱和式请求访问
 
-线程池 :  ThreadPoolExecutor, 每个进程共享内存空间, 多个并发之间共享全局变量，适合 IO 密集型（网络请求、文件读写、数据库操作）任务                 
+进程池 :  multiprocessing.Pool, 每个进程有独立内存空间, 多个并发之间数据不共享，适合 CPU 密集型（计算、加密、图像处理）任务
 
-- 表间并发控制（进程池） ： 基于 multiprocessing 接口, 创进程程池, 每张表运行于一个独立的进程，并发同步多张表 (参考代码: [sync_start.py](sync_start.py))
+线程池 :  ThreadPoolExecutor, 每个进程共享内存空间, 多个并发之间共享全局变量，适合 IO 密集型（网络请求、文件读写、数据库操作）任务
 
-- 表内并发控制（线程池） ：部分表需根据股票代码进行同步, 基于 ThreadPoolExecutor 类创建表内并发线程池, 同时同步多只股票数据 (
-参考代码: [stock_zh_a_hist_daily_qfq/stock_zh_a_hist_daily_qfq.py](stock_zh_a_hist_daily_qfq/stock_zh_a_hist_daily_qfq.py))
+- 表间并发控制（进程池） ： 基于 multiprocessing 接口, 创进程程池, 每张表运行于一个独立的进程，并发同步多张表 (
+  参考代码: [sync_start.py](sync_start.py))
+
+- 表内并发控制（线程池） ：部分表需根据股票代码进行同步, 基于 ThreadPoolExecutor 类创建表内并发线程池,
+  同时同步多只股票数据 (
+  参考代码: [stock_zh_a_hist_daily_qfq/stock_zh_a_hist_daily_qfq.py](stock_zh_a_hist_daily_qfq/stock_zh_a_hist_daily_qfq.py))
 
 ## 失败重试机制
 
@@ -168,8 +171,10 @@ client_macos=/opt/instantclient_23_3
 ## 其他
 
 ### 收费IP代理池  [https://cheapproxy.net/](https://cheapproxy.net/)
+
 东方财富有 IP 访问限制，频繁需要挂代理, 代码代理仅支持隧道代理（即每次访问自动切换不同IP）, 修改编辑 application.ini 中的代理配置
 如 [https://cheapproxy.net/](https://cheapproxy.net/)  下购买数据中心代理,然后配置每次访问切换IP
+
 ```shell
 [proxy]
 http=http://xxxxxxxxxxxxxxxxxce2b__cr.cn,jp,sg,tw,kr,vn:280a4e739fb93510@74.81.81.81:823

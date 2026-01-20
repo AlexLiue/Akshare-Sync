@@ -12,4 +12,3 @@ def log_retry_stats(retry_state):
     logger.warning(
         f"Exec Function [{fn_name}] Failed, Retry [{attempt}] After {int(sleep)} Seconds, Caused By [{last_exc}], args[{args}] kwargs[{kwargs}] "
     )
-

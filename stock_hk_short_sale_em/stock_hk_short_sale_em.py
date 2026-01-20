@@ -27,6 +27,7 @@ from sync_logs.sync_logs import (
     update_sync_log_date,
     update_sync_log_state_to_failed,
 )
+from util.retry import log_retry_stats
 from util.tools import (
     get_cfg,
     get_logger,
@@ -34,7 +35,6 @@ from util.tools import (
     get_engine,
     save_to_database,
 )
-from util.retry import log_retry_stats
 
 pd.set_option("display.max_columns", None)
 pd.set_option("display.max_rows", None)
@@ -70,7 +70,7 @@ def sync(drop_exist=False, enable_proxy=False):
     if enable_proxy:
         from util.proxy import Proxy
         Proxy.enable_proxy()
-    
+
     cfg = get_cfg()
     logger = get_logger("stock_hk_short_sale", cfg["sync-logging"]["filename"])
 

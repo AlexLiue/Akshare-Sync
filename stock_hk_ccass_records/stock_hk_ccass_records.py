@@ -23,7 +23,6 @@ from dateutil.relativedelta import relativedelta
 from tenacity import retry, stop_after_attempt, wait_incrementing
 
 import akshare_local
-
 from sync_logs.sync_logs import (
     update_sync_log_date,
     update_sync_log_state_to_failed,
@@ -36,7 +35,6 @@ from util.tools import (
     get_engine,
     save_to_database_v2,
 )
-
 
 
 def query_last_sync_date(trade_code, engine, logger):
@@ -67,7 +65,7 @@ def sync(drop_exist=False, enable_proxy=False):
     if enable_proxy:
         from util.proxy import Proxy
         Proxy.enable_proxy()
-    
+
     cfg = get_cfg()
     logger = get_logger("stock_hk_ccass_records", cfg["sync-logging"]["filename"])
 
@@ -146,5 +144,4 @@ def sync(drop_exist=False, enable_proxy=False):
 
 
 if __name__ == "__main__":
-
     sync(False)
