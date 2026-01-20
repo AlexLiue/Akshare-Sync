@@ -167,22 +167,14 @@ client_macos=/opt/instantclient_23_3
 
 ## 其他
 
-### IP 代理池搭建
-
-由于高频访问服务器会封IP地址，搭建本地 IP 代理池信息，获取免费的 IP 代理池,
-发送请求 [https://github.com/jhao104/proxy_pool](https://github.com/jhao104/proxy_pool)
-
-[https://github.com/CharlesPikachu/freeproxy.git](https://github.com/CharlesPikachu/freeproxy.git)
-
-
+### 收费IP代理池  [https://cheapproxy.net/](https://cheapproxy.net/)
+东方财富有 IP 访问限制，频繁需要挂代理, 代码代理仅支持隧道代理（即每次访问自动切换不同IP）, 修改编辑 application.ini 中的代理配置
+如 [https://cheapproxy.net/](https://cheapproxy.net/)  下购买数据中心代理,然后配置每次访问切换IP
+```shell
+[proxy]
+http=http://xxxxxxxxxxxxxxxxxce2b__cr.cn,jp,sg,tw,kr,vn:280a4e739fb93510@74.81.81.81:823
+https=http://xxxxxxxxxxxxxxxxxce2b__cr.cn,jp,sg,tw,kr,vn:280a4e739fb93510@74.81.81.81:823
 ```
-docker pull jhao104/proxy_pool
-docker run --env DB_CONN=redis://:password@ip:port/0 -p 5010:5010 jhao104/proxy_pool:latest
-```
-
-### 收费IP代理池
-
-[https://cheapproxy.net/](https://cheapproxy.net/)
 
 欢迎提问或 提交 Bug / PR   
 
