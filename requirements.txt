@@ -17,3 +17,4 @@ fake_useragent>=2.2.0
 opencc-python-reimplemented>=0.1.7
 vectorbt>=0.28.1
 yfinance>=0.2.66
+freeproxy>=0.3.4

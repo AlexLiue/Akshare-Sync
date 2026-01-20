@@ -36,7 +36,7 @@ from util.tools import (
     save_to_database,
     exec_sql,
 )
-from util.tools import log_retry_stats
+from util.retry import log_retry_stats
 
 
 def get_last_friday_date():
@@ -74,7 +74,11 @@ def stock_board_industry_cons_em(symbol: str = "小金属") -> pd.DataFrame:
     return akshare.stock_board_industry_cons_em(symbol)
 
 
-def sync(drop_exist=False):
+def sync(drop_exist=False, enable_proxy=False):
+    if enable_proxy:
+        from util.proxy import Proxy
+        Proxy.enable_proxy()
+    
     cfg = get_cfg()
     logger = get_logger("stock_board_industry_cons_em", cfg["sync-logging"]["filename"])
 

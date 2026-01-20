@@ -36,7 +36,7 @@ from util.tools import (
     save_to_database,
     exec_sql,
 )
-from util.tools import log_retry_stats
+from util.retry import log_retry_stats
 
 pd.set_option("display.max_columns", None)
 pd.set_option("display.max_rows", None)
@@ -62,7 +62,11 @@ def stock_hk_ggt_components_em() -> pd.DataFrame:
 
 
 # 全量初始化表数据
-def sync(drop_exist=False):
+def sync(drop_exist=False, enable_proxy=False):
+    if enable_proxy:
+        from util.proxy import Proxy
+        Proxy.enable_proxy()
+    
     cfg = get_cfg()
     logger = get_logger("stock_hk_ggt_components_em", cfg["sync-logging"]["filename"])
 
@@ -73,7 +77,7 @@ def sync(drop_exist=False):
         start_date = query_last_sync_date(engine, logger)
         """ 7天同步一次 """
         next_date = (
-                datetime.datetime.strptime(start_date, "%Y%m%d") + relativedelta(day=7)
+                datetime.datetime.strptime(start_date, "%Y%m%d") + relativedelta(days=7)
         ).strftime("%Y%m%d")
         end_date = str(datetime.datetime.now().strftime("%Y%m%d"))
         if next_date < end_date:

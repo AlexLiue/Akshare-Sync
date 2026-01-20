@@ -32,7 +32,7 @@ from util.tools import (
     exec_sql,
     save_to_database,
 )
-from util.tools import log_retry_stats
+from util.retry import log_retry_stats
 
 pd.set_option("display.max_columns", None)
 pd.set_option("display.max_rows", None)
@@ -305,7 +305,11 @@ def get_last_friday_date():
 
 
 # 全量初始化表数据
-def sync(drop_exist=False):
+def sync(drop_exist=False, enable_proxy=False):
+    if enable_proxy:
+        from util.proxy import Proxy
+        Proxy.enable_proxy()
+    
     cfg = get_cfg()
     logger = get_logger("stock_basic_info", cfg["sync-logging"]["filename"])
 

@@ -46,7 +46,7 @@ from util.tools import (
     save_to_database,
     exec_sql,
 )
-from util.tools import log_retry_stats
+from util.retry import log_retry_stats
 
 
 def query_last_sync_date(engine, logger):
@@ -95,7 +95,11 @@ def stock_zcfz_bj_em(date: str = "20200331") -> pd.DataFrame:
     return akshare.stock_zcfz_bj_em(date)
 
 
-def sync(drop_exist=False):
+def sync(drop_exist=False, enable_proxy=False):
+    if enable_proxy:
+        from util.proxy import Proxy
+        Proxy.enable_proxy()
+    
     cfg = get_cfg()
     logger = get_logger("stock_zcfz_em", cfg["sync-logging"]["filename"])
 

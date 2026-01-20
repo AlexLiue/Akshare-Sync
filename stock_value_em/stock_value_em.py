@@ -32,7 +32,7 @@ from util.tools import (
     get_cfg,
     save_to_database,
 )
-from util.tools import log_retry_stats
+from util.retry import log_retry_stats
 
 pd.set_option("display.max_columns", None)
 pd.set_option("display.max_rows", None)
@@ -62,7 +62,11 @@ def stock_value_em_by_date(trade_date: str = "20251110") -> pd.DataFrame:
     return akshare_local.stock_value_em_by_date(trade_date)
 
 
-def sync(drop_exist=False):
+def sync(drop_exist=False, enable_proxy=False):
+    if enable_proxy:
+        from util.proxy import Proxy
+        Proxy.enable_proxy()
+    
     cfg = get_cfg()
     logger = get_logger("stock_value_em", cfg["sync-logging"]["filename"])
 

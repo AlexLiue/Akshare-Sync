@@ -35,7 +35,7 @@ from util.tools import (
     get_cfg,
     save_to_database,
 )
-from util.tools import log_retry_stats
+from util.retry import log_retry_stats
 
 pd.set_option("display.max_columns", None)
 pd.set_option("display.max_rows", None)
@@ -62,7 +62,11 @@ def stock_margin_detail_szse(date: str = "20230922") -> pd.DataFrame:
     return akshare.stock_margin_detail_szse(date)
 
 
-def sync(drop_exist=False):
+def sync(drop_exist=False, enable_proxy=False):
+    if enable_proxy:
+        from util.proxy import Proxy
+        Proxy.enable_proxy()
+    
     """禁用代理, SZSE 网站有反代理访问"""
     os.environ["HTTP_PROXY"] = ""
     os.environ["HTTPS_PROXY"] = ""

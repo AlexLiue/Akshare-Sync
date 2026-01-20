@@ -5,14 +5,10 @@
 2. 提供 tushare DataApi 对象函数
 """
 
-import configparser
-import datetime
-import logging
 import os
 import platform
 import re
 import sys
-from functools import lru_cache
 from pathlib import Path
 
 import cx_Oracle
@@ -22,78 +18,24 @@ import sqlparse
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 
-
-def log_retry_stats(retry_state):
-    logger = get_logger("retry", "data-sync")
-    fn_name = retry_state.fn.__name__
-    attempt = retry_state.attempt_number
-    sleep = retry_state.next_action.sleep
-    last_exc = retry_state.outcome.exception()
-    args = retry_state.args
-    kwargs = retry_state.kwargs
-    logger.warning(
-        f"Exec Function [{fn_name}] Failed, Retry [{attempt}] After {int(sleep)} Seconds, Caused By [{last_exc}], args[{args}] kwargs[{kwargs}] "
-    )
+from util.config import get_cfg
+from util.logger import get_logger
 
 
-# 加载配置信息函数
-@lru_cache
-def get_cfg():
-    cfg = configparser.ConfigParser()
-    file_name = os.path.abspath(
-        os.path.join(os.path.dirname(os.path.abspath(__file__)), "../application.ini")
-    )
-    cfg.read(file_name)
-    return cfg
+# def log_retry_stats(retry_state):
+#     logger = get_logger("retry", "data-sync")
+#     fn_name = retry_state.fn.__name__
+#     attempt = retry_state.attempt_number
+#     sleep = retry_state.next_action.sleep
+#     last_exc = retry_state.outcome.exception()
+#     args = retry_state.args
+#     kwargs = retry_state.kwargs
+#     logger.warning(
+#         f"Exec Function [{fn_name}] Failed, Retry [{attempt}] After {int(sleep)} Seconds, Caused By [{last_exc}], args[{args}] kwargs[{kwargs}] "
+#     )
 
 
-# 获取日志文件打印输出对象
-@lru_cache
-def get_logger(log_name, file_name):
-    cfg = get_cfg()
-    log_level = cfg["sync-logging"]["level"]
-    backup_days = int(cfg["sync-logging"]["backupDays"])
-    logger = logging.getLogger(log_name)
-    logger.setLevel(log_level)
-    log_dir = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
-        "..",
-        "logs",
-        str(datetime.datetime.now().strftime("%Y-%m-%d")),
-    )
-    log_file = os.path.join(log_dir, "%s.%s" % (file_name, log_name))
-    if file_name != "":
-        if not os.path.exists(log_dir):
-            os.makedirs(log_dir)
-        clean_file = os.path.join(
-            log_dir,
-            "file_name.%s"
-            % str(
-                (
-                        datetime.datetime.now() + datetime.timedelta(days=-backup_days)
-                ).strftime("%Y-%m-%d")
-            ),
-        )
 
-        if os.path.exists(clean_file):
-            os.remove(clean_file)
-        file_handler = logging.FileHandler(log_file, encoding="utf-8")
-        file_fmt = "[%(asctime)s] [%(levelname)s] [ %(filename)s:%(lineno)04d - %(name)s ] %(message)s "
-        formatter = logging.Formatter(file_fmt)
-        file_handler.setFormatter(formatter)
-
-        console_fmt = "[%(asctime)s] [%(levelname)s] [ %(filename)s:%(lineno)04d - %(name)s ] %(message)s "
-        console_handler = logging.StreamHandler(stream=sys.stdout)
-        console_handler.setFormatter(logging.Formatter(fmt=console_fmt))
-
-        if len(logger.handlers) < 2:
-            logger.addHandler(file_handler)
-            logger.addHandler(console_handler)
-
-        # if not logger.handlers:
-        #     logger.addHandler(console_handler)
-
-    return logger
 
 
 def once_init_decorator(func):

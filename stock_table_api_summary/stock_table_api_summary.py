@@ -33,7 +33,7 @@ from util.tools import (
     exec_sql,
     save_to_database,
 )
-from util.tools import log_retry_stats
+from util.retry import log_retry_stats
 
 pd.set_option("display.max_columns", None)
 pd.set_option("display.max_rows", None)
@@ -82,7 +82,11 @@ def get_table_api_content():
     return pd.DataFrame(rows, columns=["接口", "地址", "描述", "备注"])
 
 
-def sync(drop_exist=False):
+def sync(drop_exist=False, enable_proxy=False):
+    if enable_proxy:
+        from util.proxy import Proxy
+        Proxy.enable_proxy()
+    
     cfg = get_cfg()
     logger = get_logger("stock_table_api_summary", cfg["sync-logging"]["filename"])
 

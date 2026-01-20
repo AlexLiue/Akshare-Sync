@@ -19,7 +19,7 @@ from tenacity import retry, stop_after_attempt, wait_incrementing
 
 from sync_logs.sync_logs import update_sync_log_state_to_failed, update_sync_log_date
 from util.tools import exec_create_table_script
-from util.tools import log_retry_stats
+from util.retry import log_retry_stats
 
 pd.set_option("display.max_columns", None)
 pd.set_option("display.max_rows", None)

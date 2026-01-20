@@ -36,7 +36,7 @@ from util.tools import (
     exec_sql,
     save_to_database,
 )
-from util.tools import log_retry_stats
+from util.retry import log_retry_stats
 
 pd.set_option("display.max_columns", None)
 pd.set_option("display.max_rows", None)
@@ -186,10 +186,14 @@ def exec_sync(args):
         )
 
 
-def sync(drop_exist=False, max_workers=5):
+def sync(drop_exist=False, enable_proxy=False, max_workers=5):
     """
     同步 30分钟级 前复权数据，由于当股票分红后前复权的数据需要重新计算，因此需要检测历史数据是否发生变动，如发生变动则需要重新同步
     """
+    if enable_proxy:
+        from util.proxy import Proxy
+        Proxy.enable_proxy()
+
     cfg = get_cfg()
     logger = get_logger("stock_zh_a_hist_30min_qfq", cfg["sync-logging"]["filename"])
     engine = get_engine()

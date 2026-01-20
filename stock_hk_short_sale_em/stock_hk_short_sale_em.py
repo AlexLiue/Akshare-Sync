@@ -34,7 +34,7 @@ from util.tools import (
     get_engine,
     save_to_database,
 )
-from util.tools import log_retry_stats
+from util.retry import log_retry_stats
 
 pd.set_option("display.max_columns", None)
 pd.set_option("display.max_rows", None)
@@ -66,7 +66,11 @@ def stock_hk_short_sale_em(
     return akshare_local.stock_hk_short_sale_em(symbol, start_date, end_date)
 
 
-def sync(drop_exist=False):
+def sync(drop_exist=False, enable_proxy=False):
+    if enable_proxy:
+        from util.proxy import Proxy
+        Proxy.enable_proxy()
+    
     cfg = get_cfg()
     logger = get_logger("stock_hk_short_sale", cfg["sync-logging"]["filename"])
 
@@ -143,5 +147,4 @@ def sync(drop_exist=False):
 
 
 if __name__ == "__main__":
-    init_proxy()
     sync(False)

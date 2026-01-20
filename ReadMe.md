@@ -171,6 +171,9 @@ client_macos=/opt/instantclient_23_3
 由于高频访问服务器会封IP地址，搭建本地 IP 代理池信息，获取免费的 IP 代理池,
 发送请求 [https://github.com/jhao104/proxy_pool](https://github.com/jhao104/proxy_pool)
 
+[https://github.com/CharlesPikachu/freeproxy.git](https://github.com/CharlesPikachu/freeproxy.git)
+
+
 ```
 docker pull jhao104/proxy_pool
 docker run --env DB_CONN=redis://:password@ip:port/0 -p 5010:5010 jhao104/proxy_pool:latest

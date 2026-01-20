@@ -34,7 +34,7 @@ from util.tools import (
     get_cfg,
     save_to_database,
 )
-from util.tools import log_retry_stats
+from util.retry import log_retry_stats
 
 pd.set_option("display.max_columns", None)
 pd.set_option("display.max_rows", None)
@@ -61,7 +61,11 @@ def stock_margin_detail_sse(date: str = "20230922") -> pd.DataFrame:
     return akshare.stock_margin_detail_sse(date)
 
 
-def sync(drop_exist=False):
+def sync(drop_exist=False, enable_proxy=False):
+    if enable_proxy:
+        from util.proxy import Proxy
+        Proxy.enable_proxy()
+    
     cfg = get_cfg()
     logger = get_logger("stock_margin_detail_sse", cfg["sync-logging"]["filename"])
     engine = get_engine()

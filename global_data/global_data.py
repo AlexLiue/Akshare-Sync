@@ -12,6 +12,8 @@ from util.tools import get_logger
 @lru_cache
 class GlobalData:
     """
+    全局数据: 如股票列表，交易日历， 行业列表、板块列表
+
     交易所 |板块  |
     ----+----+
     SZSE|主板  |
@@ -32,6 +34,8 @@ class GlobalData:
             self.initialize()
             self._initialized = True
         return self.value
+
+
 
     cfg = get_cfg()
     logger = get_logger("global_data", cfg["sync-logging"]["filename"])
@@ -80,6 +84,10 @@ class GlobalData:
     logger.info(f"Execute SQL [{fund_query_sql}]")
 
     fund_basic_info = pd.read_sql(fund_query_sql, engine)
+
+
+
+
 
     def initialize(self):
         pass
