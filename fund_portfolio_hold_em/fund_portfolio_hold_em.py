@@ -211,7 +211,7 @@ def sync(drop_exist=False, enable_proxy=False, max_workers=10):
         update_sync_log_date(
             "fund_portfolio_hold_em",
             "fund_portfolio_hold_em",
-            f"{str(datetime.datetime.now().strftime("%Y%m%d"))}",
+            f"{str(datetime.now().strftime("%Y%m%d"))}",
         )
 
     except Exception:
