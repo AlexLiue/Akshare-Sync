@@ -89,6 +89,25 @@ ID |日期      |股票代码  |开盘   |收盘   |最高   |最低   |成交�
     results = [pool.apply_async(function, args=param) for function, param in functions.items()]
 ```
 
+## 自动增量导入     
+每张表记录“导入执行时间”或“数据内容时间”每次运行前自动查询历史日期，从历史同步时间增量导入, 如   
+```
+    last_sync_info = query_last_sync_info(trade_code, engine, logger)
+    last_sync_date = last_sync_info[0]
+    last_sync_close = last_sync_info[1]
+    start_date = last_sync_date
+    if start_date < end_date:
+        logger.info( f"Execute Sync stock_zh_a_hist_daily_qfq  trade_code[{trade_code}] trade_name[{trade_name}] from [{start_date}] to [{end_date}]")
+        df = stock_zh_a_hist(
+            symbol=trade_code,
+            period="daily",
+            start_date=start_date,
+            end_date=end_date,
+            adjust="qfq",
+            timeout=20,
+        )
+```
+
 ## 并发控制
 
 为加快同步速度引入并发控制逻辑（进程池、线程池），请合理控制并发，避免对相关网址进行饱和式请求访问
