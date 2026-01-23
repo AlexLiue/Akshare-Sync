@@ -118,24 +118,23 @@ def sync(drop_exist=False, enable_proxy=False):
                     "领涨股票_涨跌幅",
                 ]
 
-                if not df.empty:
-                    # 写入数据库
-                    save_to_database(
-                        df,
-                        "stock_board_concept_name_em",
-                        engine,
-                        index=False,
-                        if_exists="append",
-                        chunksize=20000,
-                    )
-                    logger.info(
-                        f"Write [{df.shape[0]}] records into table [stock_board_concept_name_em] with [{engine.engine}]"
-                    )
-                    update_sync_log_date(
-                        "stock_board_concept_name_em",
-                        "stock_board_concept_name_em",
-                        end_date,
-                    )
+                # 写入数据库
+                save_to_database(
+                    df,
+                    "stock_board_concept_name_em",
+                    engine,
+                    index=False,
+                    if_exists="append",
+                    chunksize=20000,
+                )
+                logger.info(
+                    f"Write [{df.shape[0]}] records into table [stock_board_concept_name_em] with [{engine.engine}]"
+                )
+                update_sync_log_date(
+                    "stock_board_concept_name_em",
+                    "stock_board_concept_name_em",
+                    end_date,
+                )
         else:
             logger.info("Table [stock_board_concept_name_em] Early Synced, Skip ...")
     except Exception:
