@@ -89,6 +89,7 @@ def sync(drop_exist=False, enable_proxy=False):
         # 查询交易股票列表
         global_data = GlobalData()
         trade_code_list = global_data.trade_code_hk
+        # trade_code_list = trade_code_list[trade_code_list["证券代码"]=='01810']
         for row_idx in range(trade_code_list.shape[0]):
             row = trade_code_list.iloc[row_idx]
             trade_code = row.iloc[0]

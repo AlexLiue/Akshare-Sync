@@ -125,4 +125,4 @@ def sync(drop_exist=False, enable_proxy=False):
 
 
 if __name__ == "__main__":
-    sync(False)
+    sync(False,True)

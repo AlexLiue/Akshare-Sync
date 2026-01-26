@@ -14,6 +14,7 @@ from typing import Tuple
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+from fake_useragent import UserAgent
 from opencc import OpenCC
 
 
@@ -30,8 +31,12 @@ def get_stock_short_sale_hk_report_list():
     """
     获取港股证监会卖空报告列表: 报告日期、报告CSV文件地址
     """
+    # Initialize UserAgent
+    ua = UserAgent()
+    random_agent = ua.random
+    headers = {"User-Agent": random_agent}
     root_url = "https://sc.sfc.hk/TuniS/www.sfc.hk/TC/Regulatory-functions/Market/Short-position-reporting/Aggregated-reportable-short-positions-of-specified-shares"
-    r = requests.get(root_url)
+    r = requests.get(root_url, headers=headers)
     soup = BeautifulSoup(r.text, "html.parser")
     rows = soup.find_all("tr", scope="row")
     url_rows = []
@@ -49,7 +54,11 @@ def get_stock_short_sale_hk_report(url):
     """
     根据获取港股证监会卖空CSV文件地址，获取港股证监会卖空报告内容
     """
-    csv_text = requests.get(url).text
+    # Initialize UserAgent
+    ua = UserAgent()
+    random_agent = ua.random
+    headers = {"User-Agent": random_agent}
+    csv_text = requests.get(url, headers=headers).text
     df = pd.read_csv(StringIO(csv_text))
     df["Date"] = df["Date"].apply(lambda d: d.replace("/", ""))
     df["Stock Code"] = df["Stock Code"].apply(lambda d: f"{d:05d}")
@@ -129,7 +138,11 @@ def stock_hk_ccass_records(
         "txtParticipantName": "",
         "txtSelPartID": "",
     }
-    r = requests.post(url, data=data)
+    # Initialize UserAgent
+    ua = UserAgent()
+    random_agent = ua.random
+    headers = {"User-Agent": random_agent}
+    r = requests.post(url, data=data, headers=headers)
 
     cc = OpenCC("hk2s")
     soup = BeautifulSoup(cc.convert(r.text), "html.parser")

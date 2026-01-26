@@ -91,7 +91,7 @@ def sync(processes_size):
         stock_zh_a_hist_weekly_hfq.sync: (False, True, 5),  # 东方财富-沪深京 A 股周频率数据 - 后复权
         stock_zh_a_hist_monthly_qfq.sync: (False, True, 5),  # 东方财富-沪深京 A 股月频率数据 - 前复权
         stock_zh_a_hist_monthly_hfq.sync: (False, True, 5),  # 东方财富-沪深京 A 股月频率数据 - 后复权
-        fund_portfolio_hold_em.sync: (False, True, 15),  # 东方财富网-天天基金网-基金数据-所有基金的基本信息数据
+        # fund_portfolio_hold_em.sync: (False, True, 15),  # 东方财富网-天天基金网-基金数据-所有基金的基本信息数据
         stock_margin_sse.sync: (False, False),  # 上海证券交易所-融资融券数据-融资融券汇总数据
         stock_margin_detail_sse.sync: (False, False),  # 上海证券交易所-融资融券数据-融资融券明细数据
         stock_margin_szse.sync: (False, False, 5),  # 深圳证券交易所-融资融券数据-融资融券汇总数据
