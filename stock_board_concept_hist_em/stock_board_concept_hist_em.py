@@ -57,7 +57,7 @@ def stock_board_concept_hist_em(
 
 
 def query_last_sync_date(board_code, engine, logger):
-    query_start_date = f'SELECT NVL(MAX("日期"), 19700101) as max_date FROM STOCK_BOARD_CONCEPT_HIST_EM WHERE "板块代码"=\'{board_code}\''
+    query_start_date = f'SELECT NVL(MAX("日期"), 20200101) as max_date FROM STOCK_BOARD_CONCEPT_HIST_EM WHERE "板块代码"=\'{board_code}\''
     logger.info(f"Execute Query SQL  [{query_start_date}]")
     return str(pd.read_sql(query_start_date, engine).iloc[0, 0])
 
@@ -84,7 +84,7 @@ def sync(drop_exist=False, enable_proxy=False):
         board_concepts = load_board_concept_name(engine, logger)
 
         """ BK1631 数据获取异常 """
-        board_concepts = board_concepts[~board_concepts['board_code'].isin(['BK1631'])]
+        board_concepts = board_concepts[~board_concepts['board_code'].isin(['BK1631', 'BK1632','BK1633','BK1634'])]
 
         board_size = len(board_concepts)
 
