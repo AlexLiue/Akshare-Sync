@@ -175,7 +175,7 @@ def sync_stock_sz(engine, logger, market, board):
         df = df[~df["证券代码"].isin(delist_df["公司代码"])]
 
         # 清理历史数据
-        clean_sql = f"DELETE FROM STOCK_BASIC_INFO WHERE \"交易所\"='{market}' AND 板块='{board}'"
+        clean_sql = f"DELETE FROM STOCK_BASIC_INFO WHERE \"交易所\"='{market}' AND 板块 LIKE '%{board}%'"
         logger.info("Execute Clean SQL [%s]" % clean_sql)
         exec_sql(clean_sql)
         # 写入数据库
@@ -322,10 +322,6 @@ def sync(drop_exist=False, enable_proxy=False):
         sync_stock_sh(engine, logger, "SSE", "主板A股")
         sync_stock_sh(engine, logger, "SSE", "主板B股")
         sync_stock_sh(engine, logger, "SSE", "科创板")
-
-        """ 禁用代理, 网站有反代理访问 """
-        os.environ["HTTP_PROXY"] = ""
-        os.environ["HTTPS_PROXY"] = ""
 
         sync_stock_bse(engine, logger, "BSE", "北交所")
         sync_stock_hk(engine, logger, "HKSE", "港交所")
