@@ -138,7 +138,7 @@ def sync(drop_exist=False, enable_proxy=False):
                 break
 
     except Exception:
-        logger.error(f"Table [stock_zh_a_hist_monthly_hfq] Sync Failed", exc_info=True)
+        logger.error(f"Table [stock_szse_sector_summary] Sync Failed", exc_info=True)
         update_sync_log_state_to_failed(
             "stock_szse_sector_summary", "stock_szse_sector_summary"
         )
