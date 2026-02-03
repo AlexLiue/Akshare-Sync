@@ -82,6 +82,10 @@ def sync(drop_exist=False, enable_proxy=False):
 
         engine = get_engine()
         board_concepts = load_board_concept_name(engine, logger)
+
+        """ BK1631 数据获取异常 """
+        board_concepts = board_concepts[~board_concepts['board_code'].isin(['BK1631'])]
+
         board_size = len(board_concepts)
 
         global_data = GlobalData()
