@@ -12,11 +12,8 @@ pd.set_option("display.float_format", lambda x: "%.2f" % x)
 
 class Proxy:
     """
-    代理存在问题未解决
-
+    代理访问配置
     """
-
-    '''scrape'''
 
     @staticmethod
     def enable_proxy():
@@ -25,8 +22,10 @@ class Proxy:
             os.path.join(os.path.dirname(os.path.abspath(__file__)), "../application.ini")
         )
         cfg.read(file_name)
-        os.environ["http_proxy"] = cfg["proxy"]["http"]
-        os.environ["https_proxy"] = cfg["proxy"]["https"]
+        if cfg["proxy"]["http"] != "":
+             os.environ["http_proxy"] = cfg["proxy"]["http"]
+        if cfg["proxy"]["http"] != "":
+             os.environ["https_proxy"] = cfg["proxy"]["https"]
 
     @staticmethod
     def disable_proxy():

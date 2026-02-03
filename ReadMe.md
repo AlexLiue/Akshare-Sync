@@ -1,6 +1,6 @@
 # Sync Akshare Data to Oracle - 股票数据获取
 
-### 特别说明： 本项目仅用于学习使用，请务用于其他用途
+### 特别说明： 本项目仅用于学习使用，请勿用于其他用途
 
 - 同步 [Akshare](https://akshare.akfamily.xyz/data/stock/stock.html) 的股票交易数据到本地 Oracle 进行存储
 - 首先从 Akshare 拉取全量历史数据
