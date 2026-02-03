@@ -63,7 +63,7 @@ def query_last_sync_date(board_code, engine, logger):
 
 
 def load_board_concept_name(engine, logger):
-    board_concept_sql = 'SELECT "板块代码" as board_code, "板块名称" as board_name FROM STOCK_BOARD_CONCEPT_NAME_EM'
+    board_concept_sql = 'SELECT "板块代码" as board_code, "板块名称" as board_name FROM STOCK_BOARD_CONCEPT_NAME_EM ORDER BY board_code ASC'
     logger.info(f"Execute Query SQL  [{board_concept_sql}]")
     return pd.read_sql(sql=board_concept_sql, con=engine)
 
@@ -163,4 +163,4 @@ def sync(drop_exist=False, enable_proxy=False):
 
 
 if __name__ == "__main__":
-    sync(False)
+    sync(False, True)
