@@ -5,6 +5,7 @@
 import argparse
 import multiprocessing
 
+from fund_etf_spot_em import fund_etf_spot_em
 from fund_name_em import fund_name_em
 from fund_portfolio_hold_em import fund_portfolio_hold_em
 from stock_basic_info import stock_basic_info
@@ -57,6 +58,7 @@ def sync(processes_size):
     stock_board_industry_name_em.sync(False, False)  # 东方财富网-行情中心-沪深京板块-行业板块
 
     fund_name_em.sync()  # 东方财富网-天天基金网-基金数据-所有基金的基本信息数据
+    fund_etf_spot_em.sync(False, True) # 东方财富网- ETF 实时行情
 
     """ 创建执行的线程池对象, 并指定线程池大小, 并提交数据同步task任务  """
     pool = multiprocessing.Pool(processes=processes_size)
