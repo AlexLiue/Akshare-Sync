@@ -52,7 +52,7 @@ def init_oracle_client():
         sys.exit(1)
 
 
-# 获取 MySQL Connection 对象
+# 获取 Oracle Connection 对象
 def get_engine():
     cfg = get_cfg()
     init_oracle_client()
