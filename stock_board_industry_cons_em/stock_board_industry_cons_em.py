@@ -128,6 +128,7 @@ def sync(drop_exist=False, enable_proxy=False):
                     logger.info(f"Execute Clean SQL  [{clean_sql}]")
                     exec_sql(clean_sql)
 
+                    df = df.drop_duplicates(keep='last')
                     save_to_database(
                         df,
                         "stock_board_industry_cons_em",
@@ -154,4 +155,4 @@ def sync(drop_exist=False, enable_proxy=False):
 
 
 if __name__ == "__main__":
-    sync(False)
+    sync(False, True)
